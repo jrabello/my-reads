@@ -18,15 +18,6 @@ class BookViewerSection extends React.Component {
                 }
               }/>
             </li>
-            <li>
-              <BookCard book={
-                {
-                  imgUrl: `http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api`,
-                  title: 'The Linux Command Line',
-                  authors: ["William E. Shotts, Jr."],
-                }
-              }/>
-            </li>
           </ol>
         </div>
       </div>
