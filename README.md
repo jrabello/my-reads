@@ -4,9 +4,9 @@ This project was created for udacity's nanodegree, the purpose is to develop a M
 
 - TODO
 
-<p align="center">
+<!-- <p align="center">
   <img alt="restaurant app" src="https://raw.githubusercontent.com/jrabello/restaurant-reviews/master/img/restaurant.png"/>
-</p>
+</p> -->
 
 ## Installation
 Just choose a webserver of your choice, ex:
