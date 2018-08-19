@@ -9,15 +9,17 @@ class BookViewerSection extends React.Component {
         <h2 className="bookshelf-title">{ this.props.title }</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            <li>
-              <BookCard book={
-                {
-                  imgUrl: `http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api`,
-                  title: 'The Linux Command Line',
-                  authors: ["William E. Shotts, Jr."],
-                }
-              }/>
-            </li>
+            {
+              this.props
+              .books
+              .map((book, i) => {
+                  return (
+                  <li key={i}>
+                    <BookCard  book={book}/>
+                  </li>
+                  )
+              })
+            }
           </ol>
         </div>
       </div>
