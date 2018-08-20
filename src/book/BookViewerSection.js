@@ -5,7 +5,6 @@ class BookViewerSection extends React.Component {
   render() {
     return (
       <div className="bookshelf">
-      {/* TODO: add title as a parameter */}
         <h2 className="bookshelf-title">{ this.props.title }</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
