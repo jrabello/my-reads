@@ -10,7 +10,11 @@ class BookCard extends React.Component {
                 style={{ 
                     width: 128, 
                     height: 193, 
-                    backgroundImage: `url(${this.props.book.imageLinks.thumbnail})` 
+                    backgroundImage: `url(${
+                        this.props.book.imageLinks ? 
+                        this.props.book.imageLinks.thumbnail :
+                        ``
+                    })` 
                 }}></div>
             <div className="book-shelf-changer">
                 <select>
@@ -28,7 +32,7 @@ class BookCard extends React.Component {
                 this.props
                 .book
                 .authors ? 
-                this.props
+                    this.props
                     .book
                     .authors
                     .map((author, i) => {

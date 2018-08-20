@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { routeNameContainer } from "../constants/constants";
 import { BooksApi } from "../api/BooksAPI";
 import BookCard from "./BookCard";
+import { Debounce } from 'react-throttle';
+ 
 
 class BookSearch extends React.Component {
   state = {
@@ -10,11 +12,20 @@ class BookSearch extends React.Component {
   };
 
   updateQuery(value) {
-    console.log(value);
+    // error checking
+    if(!(value && value.length)) {
+      this.setState({
+        books: []
+      })
+      return;
+    }
+
+    // searching books
     BooksApi.search(value)
     .then(books => this.setState({
-      books
+      books: (books && !books.error) ? books : []
     }))
+    
   }
 
   render() {
@@ -26,31 +37,22 @@ class BookSearch extends React.Component {
           </Link>
 
           <div className="search-books-input-wrapper">
-            {/*
-            NOTES: The search from BooksAPI is 
-            limited to a particular set of search terms.
-            You can find these search terms here:
-            https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-            However, remember that the BooksAPI.search method DOES 
-            search by title or author. So, don't worry if
-            you don't find a specific author or title. 
-            Every search is limited by search terms.
-            */}
-            <input
-              type="text"
-              onChange={event => this.updateQuery(event.target.value)}
-              placeholder="Search by title or author"
-            />
+            <Debounce time="300" handler="onChange">
+              <input
+                type="text"
+                onChange={event => this.updateQuery(event.target.value)}
+                placeholder="Search by title or author"
+              />
+            </Debounce>
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
           {
-              this.state
+              this
+              .state
               .books
               .map((book, i) => {
-                  if(book.authors === undefined)debugger
                   return (
                   <li key={i}>
                     <BookCard book={book}/>
