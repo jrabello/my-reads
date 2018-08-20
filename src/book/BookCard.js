@@ -27,14 +27,21 @@ class BookCard extends React.Component {
             {
                 this.props
                 .book
-                .authors
-                .map((author, i) => {
-                    return (
-                        <div key={i} className="book-authors">
-                            {author}
-                        </div>
-                    )
-                })
+                .authors ? 
+                this.props
+                    .book
+                    .authors
+                    .map((author, i) => {
+                        return (
+                            <div key={i} className="book-authors">
+                                {author}
+                            </div>
+                        )
+                    })
+                :
+                    <div className="book-authors">
+                    </div>
+                    
             }
             </div>
             </div>
