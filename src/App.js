@@ -12,20 +12,46 @@ class BooksApp extends React.Component {
   }
   
   componentDidMount() {
-    BooksApi.getAll()
+    BooksApi
+      .getAll()
       .then(books => this.setState({
         books
       }))
+  }
+
+  handleBookShelfChanged = async (book, shelf) => {
+    const bookFoundIdx = this.state
+        .books
+        .findIndex(candidateBook => candidateBook.id === book.id)
+
+    const bookFound = bookFoundIdx >= 0;
+    if(bookFound) {
+      this.state.books[bookFoundIdx].shelf = shelf;
+    } else {
+      // book is not in book list yet
+      // send request to server asking for it
+      const bookFromServer = await BooksApi.get(book.id)
+      bookFromServer.shelf = shelf;
+      this.state.books.push(bookFromServer);
+    }
+
+    this.setState({
+      books: this.state.books
+    })
+    BooksApi.update(book, shelf);
   }
 
   render() {
     return (
       <div className="app">
         <Route exact path={routeNameContainer.root} render= { () => (
-          <BookViewer books={ this.state.books } />
-        )} />
-        <Route path={routeNameContainer.search}  render= { () => (
-          <BookSearch />
+          <BookViewer 
+            books={ this.state.books } 
+            onBookShelfChanged={this.handleBookShelfChanged}/>
+        )}/>
+        <Route path={routeNameContainer.search} render= { () => (
+          <BookSearch 
+            onBookShelfChanged={this.handleBookShelfChanged}/>
         )}/>
       </div>
     )

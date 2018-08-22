@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { routeNameContainer } from '../constants/constants';
 
 class BookViewer extends React.Component {
-     
+    handleBookShelfChanged = (book, shelf) =>  {
+        // calls parent component
+        this.props.onBookShelfChanged(book, shelf);   
+    }
+
     render() {
         return (
         <div className="list-books">
@@ -17,16 +21,19 @@ class BookViewer extends React.Component {
             <BookViewerSection
                 title="Currently Reading"
                 books={this.props.books.filter(
-                book => book.shelf === `currentlyReading`
+                    book => book.shelf === `currentlyReading`
                 )}
+                onBookShelfChanged={this.handleBookShelfChanged}
             />
             <BookViewerSection
                 title="Want to Read"
                 books={this.props.books.filter(book => book.shelf === `wantToRead`)}
+                onBookShelfChanged={this.handleBookShelfChanged}
             />
             <BookViewerSection
                 title="Read"
                 books={this.props.books.filter(book => book.shelf === `read`)}
+                onBookShelfChanged={this.handleBookShelfChanged}
             />
             </div>
         </div>

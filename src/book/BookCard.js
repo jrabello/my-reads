@@ -2,6 +2,11 @@ import React from 'react'
 
 class BookCard extends React.Component {
     
+    handleChange = (book, shelf) => {
+        console.log(`book, shelf: `, book, shelf);
+        this.props.onBookShelfChanged(book, shelf);   
+    }
+    
     render() {
         return (
             <div className="book">
@@ -17,8 +22,10 @@ class BookCard extends React.Component {
                     })` 
                 }}></div>
             <div className="book-shelf-changer">
-                <select>
-                    <option value="move" disabled>Move to...</option>
+                <select onChange={event => 
+                    this.handleChange(this.props.book, event.target.value)
+                    }>
+                    <option value="move" disabled selected={true}>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
                     <option value="read">Read</option>

@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Debounce } from 'react-throttle';
+
 import { routeNameContainer } from "../constants/constants";
 import { BooksApi } from "../api/BooksAPI";
 import BookCard from "./BookCard";
-import { Debounce } from 'react-throttle';
  
 
 class BookSearch extends React.Component {
@@ -28,6 +29,11 @@ class BookSearch extends React.Component {
     
   }
 
+  handleBookShelfChanged = (book, shelf) =>  {
+    // calls parent component
+    this.props.onBookShelfChanged(book, shelf);   
+  }
+
   render() {
     return (
       <div className="search-books">
@@ -35,7 +41,6 @@ class BookSearch extends React.Component {
           <Link to={routeNameContainer.root} className="close-search">
             Close
           </Link>
-
           <div className="search-books-input-wrapper">
             <Debounce time="300" handler="onChange">
               <input
@@ -55,7 +60,7 @@ class BookSearch extends React.Component {
               .map((book, i) => {
                   return (
                   <li key={i}>
-                    <BookCard book={book}/>
+                    <BookCard book={book} onBookShelfChanged={this.handleBookShelfChanged}/>
                   </li>
                   )
               })
