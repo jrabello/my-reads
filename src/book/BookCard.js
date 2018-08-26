@@ -1,12 +1,31 @@
 import React from 'react'
 
 class BookCard extends React.Component {
-    
-    handleChange = (book, shelf) => {
-        console.log(`book, shelf: `, book, shelf);
-        this.props.onBookShelfChanged(book, shelf);   
+    state = {
+        shelfOptions: [
+            {
+                value: `currentlyReading`,
+                title:`Currently Reading`,
+            },
+            {
+                value: `wantToRead`,
+                title:`Want to Read`,
+            },
+            {
+                value: `read`,
+                title:`Read`,
+            },
+            {
+                value: `none`,
+                title:`None`,
+            },
+        ]
+    };
+
+    handleChange = (book, clickedShelf) => {
+        this.props.onBookShelfChanged(book, clickedShelf); 
     }
-    
+
     render() {
         return (
             <div className="book">
@@ -22,14 +41,28 @@ class BookCard extends React.Component {
                     })` 
                 }}></div>
             <div className="book-shelf-changer">
-                <select onChange={event => 
-                    this.handleChange(this.props.book, event.target.value)
+                <select 
+                    value={ 
+                        this.props.book && this.props.book.shelf
+                        ? this.props.book.shelf
+                        : `none`
+                    }
+                    onChange={
+                        event => this.handleChange(this.props.book, event.target.value)
                     }>
-                    <option value="move" disabled selected={true}>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
+                    <option value="move" disabled>Move to...</option>
+                    {
+                        this.state.shelfOptions
+                        .map((opt, idx) => {
+                            return (
+                                <option 
+                                    key={idx}
+                                    value={opt.value}>
+                                    {opt.title}
+                                </option>
+                            )
+                        })
+                    }
                 </select>
             </div>
             </div>
@@ -52,7 +85,6 @@ class BookCard extends React.Component {
                 :
                     <div className="book-authors">
                     </div>
-                    
             }
             </div>
             </div>

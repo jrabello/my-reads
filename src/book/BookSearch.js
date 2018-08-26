@@ -9,12 +9,12 @@ import BookCard from "./BookCard";
 
 class BookSearch extends React.Component {
   state = {
-    books: []
+    searchResultbooks: []
   };
 
-  updateQuery(value) {
+  searchServer(userInput) {
     // error checking
-    if(!(value && value.length)) {
+    if(!(userInput && userInput.length)) {
       this.setState({
         books: []
       })
@@ -22,11 +22,23 @@ class BookSearch extends React.Component {
     }
 
     // searching books
-    BooksApi.search(value)
+    BooksApi.search(userInput)
     .then(books => this.setState({
-      books: (books && !books.error) ? books : []
+      searchResultbooks: 
+        (books && !books.error)  
+        ? books 
+        : []
     }))
-    
+  }
+
+  getBooksWithShelf() {
+    this.state.searchResultbooks
+    .forEach((searchBook) => {
+      const foundBook = this.props.books.find(book => book.id === searchBook.id)
+      if(foundBook && foundBook.shelf)
+        searchBook.shelf = foundBook.shelf;
+    })
+    return this.state.searchResultbooks
   }
 
   handleBookShelfChanged = (book, shelf) =>  {
@@ -45,7 +57,7 @@ class BookSearch extends React.Component {
             <Debounce time="300" handler="onChange">
               <input
                 type="text"
-                onChange={event => this.updateQuery(event.target.value)}
+                onChange={event => this.searchServer(event.target.value)}
                 placeholder="Search by title or author"
               />
             </Debounce>
@@ -54,17 +66,18 @@ class BookSearch extends React.Component {
         <div className="search-books-results">
           <ol className="books-grid">
           {
-              this
-              .state
-              .books
-              .map((book, i) => {
-                  return (
+            this
+            .getBooksWithShelf()
+            .map((book, i) => {
+                return (
                   <li key={i}>
-                    <BookCard book={book} onBookShelfChanged={this.handleBookShelfChanged}/>
+                    <BookCard 
+                      book={book} 
+                      onBookShelfChanged={this.handleBookShelfChanged}/>
                   </li>
-                  )
-              })
-            }
+                )
+            })
+          }
           </ol>
         </div>
       </div>
