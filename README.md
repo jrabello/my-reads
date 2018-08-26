@@ -3,7 +3,7 @@
 This project was created for udacity's nanodegree, the purpose is to develop a MyReads App to manage state of books that you are reading:
 
 <p align="center">
-  <img alt="restaurant app" src="https://raw.githubusercontent.com/jrabello/my-reads/master/src/img/app.png"/>
+  <img alt="myreads app" src="https://raw.githubusercontent.com/jrabello/my-reads/master/src/img/app.png"/>
 </p>
 
 ## Installation
